@@ -142,9 +142,9 @@ export default function HubClient({ packs, allBlobs }: { packs: Pack[]; allBlobs
           Free forever · No credit required but appreciated · Made by Csiklaoliver
         </p>
         <div className="flex gap-6 justify-center text-[0.65rem] font-black tracking-[2px] uppercase">
-          {["GitHub", "Roblox", ...packs.map(p => p.label)].map((l, i) => (
+          {["GitHub", ...packs.map(p => p.label)].map((l, i) => (
             <a key={i}
-              href={l === "GitHub" ? "https://github.com/csiklaoliver" : l === "Roblox" ? "https://roblox.com/users/Csiklaoliver" : `#${packs.find(p => p.label === l)?.slug}`}
+              href={l === "GitHub" ? "https://github.com/csiklaoliver" : `#${packs.find(p => p.label === l)?.slug}`}
               className="text-white/25 hover:text-white transition-colors">
               {l}
             </a>

@@ -74,7 +74,7 @@ export default function BlobCard({ blob, onCopy }: Props) {
             </a>
           ))}
           <button
-            onClick={() => onCopy?.(`${blob.name} by Csiklaoliver — lilblobpack.oliverprojects.tech`)}
+            onClick={() => onCopy?.(`${blob.name} by Csiklaoliver — blobpack.oliverprojects.tech`)}
             className="flex-none px-3 py-2.5 rounded-lg border border-white/5 text-white/30 text-[0.72rem] font-black transition-all hover:border-white/20 hover:text-white"
           >
             ⧉
