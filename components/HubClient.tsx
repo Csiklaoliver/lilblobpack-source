@@ -120,6 +120,25 @@ export default function HubClient({ packs, allBlobs }: { packs: Pack[]; allBlobs
         </div>
       ))}
 
+      {/* REQUEST SECTION */}
+      <div className="max-w-[1100px] mx-auto px-6"><div className="h-px bg-white/[0.06]" /></div>
+      <section className="relative z-10 max-w-[1100px] mx-auto px-6 py-24 text-center">
+        <div className="text-[0.65rem] font-black tracking-[3px] uppercase text-[#a78bfa] mb-4">Custom Requests</div>
+        <h2 className="font-[family-name:var(--font-fredoka)] text-[clamp(2rem,5vw,3rem)] text-white mb-4">
+          Want a blob for your app?
+        </h2>
+        <p className="text-white/30 font-bold text-sm max-w-sm mx-auto mb-8 leading-relaxed">
+          Don&apos;t see your favourite app in the pack? Send a request and I&apos;ll consider adding it.
+        </p>
+        <a href="mailto:info@oliverprojects.tech"
+          className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl border border-[#a78bfa]/20 bg-[#a78bfa]/5 hover:bg-[#a78bfa]/10 hover:border-[#a78bfa]/40 transition-all group">
+          <span className="text-[#a78bfa] text-lg">✉</span>
+          <span className="font-black text-sm tracking-wider text-white/70 group-hover:text-white transition-colors">
+            info@oliverprojects.tech
+          </span>
+        </a>
+      </section>
+
       {/* FOOTER */}
       <div className="max-w-[1100px] mx-auto px-6"><div className="h-px bg-white/[0.06]" /></div>
       <footer className="relative z-10 text-center py-16 px-6">
