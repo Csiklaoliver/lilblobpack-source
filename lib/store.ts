@@ -1,29 +1,40 @@
 import fs from "fs"
 import path from "path"
 
-const DATA_PATH = path.join(process.cwd(), "data", "blobs.json")
+const DATA_PATH  = path.join(process.cwd(), "data", "blobs.json")
+const PACKS_PATH = path.join(process.cwd(), "data", "packs.json")
 
 export interface Blob {
   id: string
-  name: string        // e.g. "Lil' Groove"
-  app: string         // e.g. "Spotify"
-  pack: string        // e.g. "App Pack"
-  packSlug: string    // e.g. "app"
+  name: string
+  app: string
+  pack: string
+  packSlug: string
   bio: string
-  accentColor: string // hex
-  render: string      // /uploads/renders/filename.png
-  files: {
-    format: string    // "FBX" | "GLB"
-    url: string       // /uploads/models/filename.fbx
-    size: string      // e.g. "6MB"
-  }[]
+  accentColor: string
+  render: string
+  files: { format: string; url: string; size: string }[]
   createdAt: string
 }
 
+export interface PackDef {
+  slug: string
+  label: string
+  description: string
+  accent: string
+  accent2: string
+}
+
+export interface Pack extends PackDef {
+  vol: string
+  blobs: Blob[]
+}
+
+// ── Blobs ────────────────────────────────────────────────────────────────────
+
 export function getBlobs(): Blob[] {
   if (!fs.existsSync(DATA_PATH)) return []
-  const raw = fs.readFileSync(DATA_PATH, "utf-8")
-  return JSON.parse(raw).blobs ?? []
+  return JSON.parse(fs.readFileSync(DATA_PATH, "utf-8")).blobs ?? []
 }
 
 export function saveBlobs(blobs: Blob[]) {
@@ -37,22 +48,43 @@ export function addBlob(blob: Blob) {
 }
 
 export function deleteBlob(id: string) {
-  const blobs = getBlobs().filter(b => b.id !== id)
-  saveBlobs(blobs)
+  saveBlobs(getBlobs().filter(b => b.id !== id))
 }
 
 export function updateBlob(id: string, updates: Partial<Blob>) {
-  const blobs = getBlobs().map(b => b.id === id ? { ...b, ...updates } : b)
-  saveBlobs(blobs)
+  saveBlobs(getBlobs().map(b => b.id === id ? { ...b, ...updates } : b))
 }
 
-export function getPacks(blobs: Blob[]) {
-  const map = new Map<string, { label: string; slug: string; blobs: Blob[] }>()
-  for (const blob of blobs) {
-    if (!map.has(blob.packSlug)) {
-      map.set(blob.packSlug, { label: blob.pack, slug: blob.packSlug, blobs: [] })
-    }
-    map.get(blob.packSlug)!.blobs.push(blob)
-  }
-  return Array.from(map.values())
+// ── Pack definitions ──────────────────────────────────────────────────────────
+
+export function getPackDefs(): PackDef[] {
+  if (!fs.existsSync(PACKS_PATH)) return []
+  return JSON.parse(fs.readFileSync(PACKS_PATH, "utf-8")).packs ?? []
+}
+
+export function savePackDefs(packs: PackDef[]) {
+  fs.writeFileSync(PACKS_PATH, JSON.stringify({ packs }, null, 2))
+}
+
+export function addPack(pack: PackDef) {
+  const packs = getPackDefs()
+  if (packs.find(p => p.slug === pack.slug)) throw new Error("Pack slug already exists")
+  packs.push(pack)
+  savePackDefs(packs)
+}
+
+export function deletePack(slug: string) {
+  savePackDefs(getPackDefs().filter(p => p.slug !== slug))
+}
+
+// ── Combined ──────────────────────────────────────────────────────────────────
+
+export function getPacks(): Pack[] {
+  const defs  = getPackDefs()
+  const blobs = getBlobs()
+  return defs.map((def, i) => ({
+    ...def,
+    vol:   `Vol. ${String(i + 1).padStart(2, "0")}`,
+    blobs: blobs.filter(b => b.packSlug === def.slug),
+  }))
 }

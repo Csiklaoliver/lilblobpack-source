@@ -3,15 +3,7 @@ import { useState } from "react"
 import Link from "next/link"
 import BlobCard from "./BlobCard"
 import { Toast, useToast } from "./Toast"
-import type { Blob } from "@/lib/store"
-
-interface Pack { label: string; slug: string; blobs: Blob[] }
-
-const PACK_META: Record<string, { vol: string; desc: string; accent: string; accent2: string }> = {
-  app:    { vol: "Vol. 01", desc: "The OGs. Your daily drivers, now in blob form.",              accent: "#1db954", accent2: "#5865f2" },
-  dev:    { vol: "Vol. 02", desc: "For the nerds. Perfect for your README or portfolio.",         accent: "#7c3aed", accent2: "#1db954" },
-  stream: { vol: "Vol. 03", desc: "For the couch potatoes. Just one more episode.",               accent: "#e50914", accent2: "#9146ff" },
-}
+import type { Blob, Pack } from "@/lib/store"
 
 export default function HubClient({ packs, allBlobs }: { packs: Pack[]; allBlobs: Blob[] }) {
   const { msg, visible, show } = useToast()
@@ -62,13 +54,13 @@ export default function HubClient({ packs, allBlobs }: { packs: Pack[]; allBlobs
           Cute chubby 3D mascots for your favourite apps.<br />All free, all yours. No strings attached.
         </p>
 
-        {/* stats */}
+        {/* Stats */}
         <div className="inline-flex border border-white/[0.08] rounded-xl overflow-hidden mb-14">
           {[
             { val: allBlobs.length.toString(), label: "blobs" },
-            { val: packs.length.toString(), label: "packs" },
-            { val: "FBX", label: "+ GLB" },
-            { val: "FREE", label: "forever" },
+            { val: packs.length.toString(),    label: "packs" },
+            { val: "FBX",                      label: "+ GLB" },
+            { val: "FREE",                     label: "forever" },
           ].map((s, i) => (
             <div key={i} className="px-7 py-4 border-r border-white/[0.08] last:border-r-0 text-center">
               <div className="font-[family-name:var(--font-fredoka)] text-2xl text-white">{s.val}</div>
@@ -77,7 +69,7 @@ export default function HubClient({ packs, allBlobs }: { packs: Pack[]; allBlobs
           ))}
         </div>
 
-        {/* floating blob previews */}
+        {/* Floating blob previews */}
         {allBlobs.length > 0 && (
           <div className="flex gap-4 flex-wrap justify-center mb-4">
             {allBlobs.map((b, i) => (
@@ -95,7 +87,6 @@ export default function HubClient({ packs, allBlobs }: { packs: Pack[]; allBlobs
           </div>
         )}
 
-        {/* scroll hint */}
         <div className="absolute bottom-8 flex flex-col items-center gap-2 text-[0.6rem] font-black tracking-[3px] uppercase text-white/20">
           <span>Scroll</span>
           <div className="w-px h-10 bg-gradient-to-b from-white/20 to-transparent animate-pulse" />
@@ -103,34 +94,31 @@ export default function HubClient({ packs, allBlobs }: { packs: Pack[]; allBlobs
       </section>
 
       {/* PACK SECTIONS */}
-      {packs.map((pack, pi) => {
-        const meta = PACK_META[pack.slug] ?? { vol: `Vol. 0${pi + 1}`, desc: "", accent: "#a78bfa", accent2: "#60a5fa" }
-        return (
-          <div key={pack.slug}>
-            <div className="max-w-[1100px] mx-auto px-6">
-              <div className="h-px bg-white/[0.06]" />
-            </div>
-            <section id={pack.slug} className="relative z-10 max-w-[1100px] mx-auto px-6 py-24">
-              <div className="mb-12">
-                <div className="text-[0.65rem] font-black tracking-[3px] uppercase mb-2" style={{ color: meta.accent }}>
-                  {meta.vol}
-                </div>
-                <h2 className="font-[family-name:var(--font-fredoka)] text-[clamp(2rem,5vw,3.2rem)] text-white mb-2">
-                  {pack.label}{" "}
-                  <span style={{ color: meta.accent }}>✦</span>
-                </h2>
-                <p className="text-white/30 font-bold text-sm">{meta.desc}</p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {pack.blobs.map(blob => (
-                  <BlobCard key={blob.id} blob={blob} onCopy={show} />
-                ))}
-              </div>
-            </section>
+      {packs.map(pack => (
+        <div key={pack.slug}>
+          <div className="max-w-[1100px] mx-auto px-6">
+            <div className="h-px bg-white/[0.06]" />
           </div>
-        )
-      })}
+          <section id={pack.slug} className="relative z-10 max-w-[1100px] mx-auto px-6 py-24">
+            <div className="mb-12">
+              <div className="text-[0.65rem] font-black tracking-[3px] uppercase mb-2" style={{ color: pack.accent }}>
+                {pack.vol}
+              </div>
+              <h2 className="font-[family-name:var(--font-fredoka)] text-[clamp(2rem,5vw,3.2rem)] text-white mb-2">
+                {pack.label}{" "}
+                <span style={{ color: pack.accent }}>✦</span>
+              </h2>
+              <p className="text-white/30 font-bold text-sm">{pack.description}</p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {pack.blobs.map(blob => (
+                <BlobCard key={blob.id} blob={blob} onCopy={show} />
+              ))}
+            </div>
+          </section>
+        </div>
+      ))}
 
       {/* FOOTER */}
       <div className="max-w-[1100px] mx-auto px-6"><div className="h-px bg-white/[0.06]" /></div>

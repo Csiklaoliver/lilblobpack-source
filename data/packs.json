@@ -1,0 +1,25 @@
+{
+  "packs": [
+    {
+      "slug": "app",
+      "label": "App Pack",
+      "description": "The OGs. Your daily drivers, now in blob form.",
+      "accent": "#1db954",
+      "accent2": "#5865f2"
+    },
+    {
+      "slug": "dev",
+      "label": "Dev Pack",
+      "description": "For the nerds. Perfect for your README or portfolio.",
+      "accent": "#7c3aed",
+      "accent2": "#1db954"
+    },
+    {
+      "slug": "stream",
+      "label": "Streaming Pack",
+      "description": "For the couch potatoes. Just one more episode.",
+      "accent": "#e50914",
+      "accent2": "#9146ff"
+    }
+  ]
+}
