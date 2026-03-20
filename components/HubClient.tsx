@@ -29,8 +29,13 @@ export default function HubClient({ packs, allBlobs }: { packs: Pack[]; allBlobs
               {p.label}
             </a>
           ))}
+          <a href="https://github.com/Csiklaoliver/lil-blob-pack" target="_blank" rel="noopener"
+            className="ml-2 text-[0.7rem] font-black tracking-widest uppercase text-white/30 hover:text-[#f59e0b] px-3 py-1.5 rounded-lg border border-white/5 hover:border-[#f59e0b]/30 transition-all flex items-center gap-1.5">
+            <svg viewBox="0 0 16 16" className="w-3.5 h-3.5 fill-current" xmlns="http://www.w3.org/2000/svg"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+            Star
+          </a>
           <Link href="/admin"
-            className="ml-2 text-[0.7rem] font-black tracking-widest uppercase text-white/20 hover:text-white/60 px-3 py-1.5 rounded-lg border border-white/5 hover:border-white/15 transition-all">
+            className="ml-1 text-[0.7rem] font-black tracking-widest uppercase text-white/20 hover:text-white/60 px-3 py-1.5 rounded-lg border border-white/5 hover:border-white/15 transition-all">
             Admin
           </Link>
         </div>
